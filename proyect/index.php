@@ -1,4 +1,6 @@
 <?php
+
+include_once 'functions.php';
 $name = 'Isaac Batista';
 $limitMonths = 12;
 $jobs = [
@@ -113,17 +115,7 @@ $jobs = [
                 endif; 
             ?>
             <?php if($job['visible']):?>
-            
-            <li class="work-position">
-                <h5><?= $job['title']; ?></h5>
-                <p><?= $job['description']; ?></p>
-              <strong>Achievements:</strong>
-              <ul>
-                <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
-                <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
-                <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
-              </ul>
-            </li>
+              <?php printJob($job) ?>
             <?php endif; ?>
             <?php endforeach; ?> 
           </ul>
