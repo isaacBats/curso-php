@@ -1,26 +1,42 @@
 <?php
 $name = 'Isaac Batista';
+$limitMonths = 12;
 $jobs = [
     [
         'title' => 'PHP Developer',
         'description' => 'This is an awesome job!!!',
         'visible' => true,
+        'months' => 6,
     ],
     [
         'title' => 'Python Dev',
-        'visible' => false,
+        'visible' => true,
+        'months' => 4,
+
     ],
     [
         'title' => 'DevOps',
         'visible' => false,
+        'months' => 7,
+
     ],
     [
         'title' => 'Node Dev',
         'visible' => true,
+        'months' => 9,
+
     ],
     [
         'title' => 'FullStack Dev',
         'visible' => false,
+        'months' => 3,
+
+    ],
+    [
+        'title' => 'Frontend Dev',
+        'visible' => true,
+        'months' => 9,
+
     ],
 ];
 ?>
@@ -73,7 +89,30 @@ $jobs = [
           <h3 class="border-bottom-gray" >Work Experience</h3>
           <ul>
             <?php foreach( $jobs as $job ): ?>
-            <?php // var_dump($job); exit;?>
+
+            <?php 
+                /**
+                 * El ciclo if se puede utilizar con palabras reservadas como 'continue' y 'break'
+                 * Ejemplos:
+                 */
+
+                // Esta forma de usar el if hace que el ciclo siga si la variable cumple con la condición
+                // if ( $job['visible'] != true ){
+                //     continue;
+                // }
+
+                // Si la condicion se cumple entonces sale del ciclo
+                // if ($totalMoths > $limitMonths) {
+                //     break;
+                // }
+            ?>
+            <?php
+                $totalMonths += $job['months'];
+                if($totalMonths > $limitMonths): 
+                    break; 
+                endif; 
+            ?>
+            <?php if($job['visible']):?>
             
             <li class="work-position">
                 <h5><?= $job['title']; ?></h5>
@@ -85,27 +124,8 @@ $jobs = [
                 <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
               </ul>
             </li>
+            <?php endif; ?>
             <?php endforeach; ?> 
-            <li class="work-position">
-                <h5>PHP Developer</h5>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi sapiente sed pariatur sint exercitationem eos expedita eveniet veniam ullam, quia neque facilis dicta voluptatibus. Eveniet doloremque ipsum itaque obcaecati nihil.</p>
-                <strong>Achievements:</strong>
-                <ul>
-                  <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
-                  <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
-                  <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
-                </ul>
-              </li>
-              <li class="work-position">
-                  <h5>PHP Developer</h5>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi sapiente sed pariatur sint exercitationem eos expedita eveniet veniam ullam, quia neque facilis dicta voluptatibus. Eveniet doloremque ipsum itaque obcaecati nihil.</p>
-                  <strong>Achievements:</strong>
-                  <ul>
-                    <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
-                    <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
-                    <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
-                  </ul>
-                </li>
           </ul>
         </div>
         <div>
