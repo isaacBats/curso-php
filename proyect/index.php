@@ -1,45 +1,62 @@
 <?php
 
 include_once 'functions.php';
+require 'Job.php';
+
+
 $name = 'Isaac Batista';
 $limitMonths = 12;
-$jobs = [
-    [
-        'title' => 'PHP Developer',
-        'description' => 'This is an awesome job!!!',
-        'visible' => true,
-        'months' => 6,
-    ],
-    [
-        'title' => 'Python Dev',
-        'visible' => true,
-        'months' => 4,
 
-    ],
-    [
-        'title' => 'DevOps',
-        'visible' => false,
-        'months' => 7,
+$job1 = new Job();
+$job1->setTitle('PHP Developer');
+$job1->description = 'This is an awesome job!!!';
+$job1->visible = true;
+$job1->months = 6;
 
-    ],
-    [
-        'title' => 'Node Dev',
-        'visible' => true,
-        'months' => 9,
+$job2 = new Job();
+$job2->setTitle('Python Dev');
+$job2->description = 'This is an awesome job 2!!!';
+$job2->visible = true;
+$job2->months = 4; 
 
-    ],
-    [
-        'title' => 'FullStack Dev',
-        'visible' => false,
-        'months' => 3,
+$jobs = [ $job1, $job2
 
-    ],
-    [
-        'title' => 'Frontend Dev',
-        'visible' => true,
-        'months' => 9,
+    // [
+    //     'title' => 'PHP Developer',
+    //     'description' => 'This is an awesome job!!!',
+    //     'visible' => true,
+    //     'months' => 6,
+    // ],
+    // [
+    //     'title' => 'Python Dev',
+    //     'visible' => true,
+    //     'months' => 4,
 
-    ],
+    // ],
+    // [
+    //     'title' => 'DevOps',
+    //     'visible' => false,
+    //     'months' => 7,
+
+    // ],
+    // [
+    //     'title' => 'Node Dev',
+    //     'visible' => true,
+    //     'months' => 9,
+
+    // ],
+    // [
+    //     'title' => 'FullStack Dev',
+    //     'visible' => false,
+    //     'months' => 3,
+
+    // ],
+    // [
+    //     'title' => 'Frontend Dev',
+    //     'visible' => true,
+    //     'months' => 9,
+
+    // ],
 ];
 ?>
 
@@ -109,12 +126,12 @@ $jobs = [
                 // }
             ?>
             <?php
-                $totalMonths += $job['months'];
+                $totalMonths += $job->months;
                 if($totalMonths > $limitMonths): 
                     break; 
                 endif; 
             ?>
-            <?php if($job['visible']):?>
+            <?php if($job->visible):?>
               <?php printJob($job) ?>
             <?php endif; ?>
             <?php endforeach; ?> 
