@@ -1,0 +1,19 @@
+{
+    "name": "daniel/me",
+    "description": "This an example script",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Isaac Batista",
+            "email": "daniel@danielbat.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "class/"
+        }
+    },
+    "minimum-stability": "beta",
+    "require": {}
+}
