@@ -11,11 +11,13 @@
 
 require_once 'boot/boot.php';
 
-$martin = new PlaySoccer('Martin', 18);
-$martin->setYears(23);
-$martin->setPosition('Delantero Medio');
-$martin->setLastName('Santos');
+// $martin = new PlaySoccer('Martin', 18);
+// $martin->setYears(23);
+// $martin->setPosition('Delantero Medio');
+// $martin->setLastName('Santos');
 
-echo $martin->presentation();
-echo "<br>Im play {$martin->personalSport()} and my number is {$martin->favoriteNumber()} and I play {$martin->position()}";
-echo "<br>". $martin->getName();
+// echo $martin->presentation();
+// echo "<br>Im play {$martin->personalSport()} and my number is {$martin->favoriteNumber()} and I play {$martin->position()}";
+// echo "<br>". $martin->getName();
+
+require_once 'views/index.php';
