@@ -5,21 +5,21 @@ require 'Job.php';
 
 
 $name = 'Isaac Batista';
-$limitMonths = 12;
+$limitMonths = 60;
 
-$job1 = new Job();
-$job1->setTitle('PHP Developer');
-$job1->description = 'This is an awesome job!!!';
+$job1 = new Job('PHP Developer', 'This is an awesome job!!!');
 $job1->visible = true;
-$job1->months = 6;
+$job1->months = 38;
 
-$job2 = new Job();
-$job2->setTitle('Python Dev');
-$job2->description = 'This is an awesome job 2!!!';
+$job2 = new Job('Python Developer', 'This is an awesome job 2!!!');
 $job2->visible = true;
-$job2->months = 4; 
+$job2->months = 14;
 
-$jobs = [ $job1, $job2
+$job3 = new Job('', 'This is an awesome job 3!!!');
+$job3->visible = true;
+$job3->months = 14; 
+
+$jobs = [ $job1, $job2, $job3,
 
     // [
     //     'title' => 'PHP Developer',
