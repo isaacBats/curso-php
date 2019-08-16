@@ -1,11 +1,21 @@
 <?php
 
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 include_once 'functions.php';
-require 'Job.php';
+include_once 'app/Models/Job.php';
+include_once 'app/Models/Project.php';
+
+require 'app/lib/Project.php';
+
+use App\Models\{Job, Project, Printable};
+// use App\Models\Project;
 
 
 $name = 'Isaac Batista';
 $limitMonths = 60;
+$totalMonths = 0;
 
 $job1 = new Job('PHP Developer', 'This is an awesome job!!!');
 $job1->visible = true;
@@ -19,45 +29,13 @@ $job3 = new Job('', 'This is an awesome job 3!!!');
 $job3->visible = true;
 $job3->months = 14; 
 
-$jobs = [ $job1, $job2, $job3,
+$jobs = [ $job1, $job2, $job3, ];
 
-    // [
-    //     'title' => 'PHP Developer',
-    //     'description' => 'This is an awesome job!!!',
-    //     'visible' => true,
-    //     'months' => 6,
-    // ],
-    // [
-    //     'title' => 'Python Dev',
-    //     'visible' => true,
-    //     'months' => 4,
+$project1 = new Project('Project 1', 'Description 1');
 
-    // ],
-    // [
-    //     'title' => 'DevOps',
-    //     'visible' => false,
-    //     'months' => 7,
+$projects = [ $project1, ];
 
-    // ],
-    // [
-    //     'title' => 'Node Dev',
-    //     'visible' => true,
-    //     'months' => 9,
-
-    // ],
-    // [
-    //     'title' => 'FullStack Dev',
-    //     'visible' => false,
-    //     'months' => 3,
-
-    // ],
-    // [
-    //     'title' => 'Frontend Dev',
-    //     'visible' => true,
-    //     'months' => 9,
-
-    // ],
-];
+$projectLib = new Lib\Project();
 ?>
 
 <!doctype html>
@@ -129,16 +107,22 @@ $jobs = [ $job1, $job2, $job3,
                 $totalMonths += $job->months;
                 if($totalMonths > $limitMonths): 
                     break; 
-                endif; 
+                endif;
             ?>
             <?php if($job->visible):?>
-              <?php printJob($job) ?>
+              <?php printElement($job) ?>
             <?php endif; ?>
             <?php endforeach; ?> 
           </ul>
         </div>
         <div>
             <h3 class="border-bottom-gray">Projects</h3>
+            <ul>
+            <?php foreach( $projects as $p ): ?>
+              <?php printElement($p) ?>
+            <?php endforeach; ?> 
+          </ul>
+
             <div class="project">
                 <h5>Project X</h5>
                 <div class="row">

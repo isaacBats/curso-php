@@ -1,10 +1,14 @@
 <?php 
 
-function printJob ($job) 
+require_once 'app/Models/Printable.php';
+
+use App\Models\Printable;
+
+function printElement (Printable $job) 
 { ?>
     <li class="work-position">
         <h5><?= $job->getTitle(); ?></h5>
-        <p><?= $job->description; ?></p>
+        <p><?= $job->getDescription(); ?></p>
         <p><?= $job->getDurationAsString(); ?></p>
       <strong>Achievements:</strong>
       <ul>
