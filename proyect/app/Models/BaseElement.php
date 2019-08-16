@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-require_once 'Printable.php';
-
 use App\Models\Printable;
 /**
  * Short description for Job.php

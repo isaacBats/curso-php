@@ -3,11 +3,8 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-include_once 'functions.php';
-include_once 'app/Models/Job.php';
-include_once 'app/Models/Project.php';
-
-require 'app/lib/Project.php';
+require_once 'vendor/autoload.php';
+require_once 'functions.php'; 
 
 use App\Models\{Job, Project, Printable};
 // use App\Models\Project;
@@ -35,7 +32,6 @@ $project1 = new Project('Project 1', 'Description 1');
 
 $projects = [ $project1, ];
 
-$projectLib = new Lib\Project();
 ?>
 
 <!doctype html>
