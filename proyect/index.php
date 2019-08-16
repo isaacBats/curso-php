@@ -9,28 +9,31 @@ require_once 'functions.php';
 use App\Models\{Job, Project, Printable};
 // use App\Models\Project;
 
+use Illuminate\Database\Capsule\Manager as Capsule;
+
+    $capsule = new Capsule;
+
+    $capsule->addConnection([
+        'driver'    => 'mysql',
+        'host'      => '127.0.0.1:3307',
+        'database'  => 'php_cursos',
+        'username'  => 'root',
+        'password'  => 'mysql',
+        'charset'   => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'prefix'    => '',
+    ]);
+    $capsule->setAsGlobal();
+    $capsule->bootEloquent();
+
 
 $name = 'Isaac Batista';
 $limitMonths = 60;
 $totalMonths = 0;
 
-$job1 = new Job('PHP Developer', 'This is an awesome job!!!');
-$job1->visible = true;
-$job1->months = 38;
+$jobs = Job::all();
 
-$job2 = new Job('Python Developer', 'This is an awesome job 2!!!');
-$job2->visible = true;
-$job2->months = 14;
-
-$job3 = new Job('', 'This is an awesome job 3!!!');
-$job3->visible = true;
-$job3->months = 14; 
-
-$jobs = [ $job1, $job2, $job3, ];
-
-$project1 = new Project('Project 1', 'Description 1');
-
-$projects = [ $project1, ];
+$projects = Project::all();
 
 ?>
 
@@ -51,6 +54,30 @@ $projects = [ $project1, ];
 </head>
 
 <body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">Menú</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="addJob.php">Add Job</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="addProject.php">Add Project</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Disabled</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
   <div class="container">
     <div id="resume-header" class="row">
       <div class="col-3">
@@ -100,14 +127,14 @@ $projects = [ $project1, ];
                 // }
             ?>
             <?php
-                $totalMonths += $job->months;
-                if($totalMonths > $limitMonths): 
-                    break; 
-                endif;
+                // $totalMonths += $job->months;
+                // if($totalMonths > $limitMonths): 
+                //     break; 
+                // endif;
             ?>
-            <?php if($job->visible):?>
+            <?php // if($job->visible):?>
               <?php printElement($job) ?>
-            <?php endif; ?>
+            <?php // endif; ?>
             <?php endforeach; ?> 
           </ul>
         </div>
