@@ -24,6 +24,22 @@ use Aura\Router\RouterContainer;
     $capsule->setAsGlobal();
     $capsule->bootEloquent();
 
+function printElement ($job) 
+{ ?>
+    <li class="work-position">
+        <h5><?= $job->title; ?></h5>
+        <p><?= $job->description; ?></p>
+        <p><?= $job->getDurationAsString(); ?></p>
+      <strong>Achievements:</strong>
+      <ul>
+        <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
+        <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
+        <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
+      </ul>
+    </li>
+<?php }
+
+
 $request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
     $_SERVER,
     $_GET,
@@ -39,7 +55,10 @@ $map->get('index', '/', [
     'controller' => 'App\Controllers\IndexController',
     'action' => 'indexAction',
 ]);
-$map->get('addJob', '/jobs/add', '../addJob.php');
+$map->get('addJob', '/jobs/add', [
+    'controller' => 'App\Controllers\JobsController',
+    'action' => 'getAddJobAction',
+]);
 
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);

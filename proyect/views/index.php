@@ -1,26 +1,3 @@
-<?php
-
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-require_once 'vendor/autoload.php';
-require_once 'functions.php'; 
-
-use App\Models\{Job, Project, Printable};
-// use App\Models\Project;
-
-
-
-$name = 'Isaac Batista';
-$limitMonths = 60;
-$totalMonths = 0;
-
-$jobs = Job::all();
-
-$projects = Project::all();
-
-?>
-
 <!doctype html>
 <html lang="en">
 
