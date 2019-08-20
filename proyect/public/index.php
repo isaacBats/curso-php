@@ -7,12 +7,13 @@ error_reporting(E_ALL);
 require_once '../vendor/autoload.php';
 
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Aura\Router\RouterContainer;
 
     $capsule = new Capsule;
 
     $capsule->addConnection([
         'driver'    => 'mysql',
-        'host'      => '127.0.0.1:3307',
+        'host'      => '172.17.0.1:3307',
         'database'  => 'php_cursos',
         'username'  => 'root',
         'password'  => 'mysql',
@@ -31,4 +32,17 @@ $request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
     $_FILES
 );
 
-var_dump($request->getUri()->getPath());
+$routerContainer = new RouterContainer();
+$map = $routerContainer->getMap();
+
+$map->get('index', '/', '../index.php');
+$map->get('addJob', '/jobs/add', '../addJob.php');
+
+$matcher = $routerContainer->getMatcher();
+$route = $matcher->match($request);
+
+if ( !$route ) {
+    echo 'No route';
+} else {
+    require $route->handler;
+}
