@@ -23,12 +23,12 @@ use Illuminate\Database\Capsule\Manager as Capsule;
     $capsule->setAsGlobal();
     $capsule->bootEloquent();
 
-$route = $_GET['route'] ?? '/';
+$request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
+    $_SERVER,
+    $_GET,
+    $_POST,
+    $_COOKIE,
+    $_FILES
+);
 
-if ( $route == '/' ) {
-    require '../index.php';
-} elseif ($route == 'addJob') {
-    require '../addJob.php';
-} elseif ( $route == 'addProject') {
-    require '../addProject.php';
-}
+var_dump($request->getUri()->getPath());
