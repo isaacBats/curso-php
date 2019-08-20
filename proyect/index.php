@@ -9,22 +9,6 @@ require_once 'functions.php';
 use App\Models\{Job, Project, Printable};
 // use App\Models\Project;
 
-use Illuminate\Database\Capsule\Manager as Capsule;
-
-    $capsule = new Capsule;
-
-    $capsule->addConnection([
-        'driver'    => 'mysql',
-        'host'      => '127.0.0.1:3307',
-        'database'  => 'php_cursos',
-        'username'  => 'root',
-        'password'  => 'mysql',
-        'charset'   => 'utf8',
-        'collation' => 'utf8_unicode_ci',
-        'prefix'    => '',
-    ]);
-    $capsule->setAsGlobal();
-    $capsule->bootEloquent();
 
 
 $name = 'Isaac Batista';
@@ -70,6 +54,9 @@ $projects = Project::all();
           </li>
           <li class="nav-item">
             <a class="nav-link" href="addProject.php">Add Project</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="tasks.php">Tasks</a>
           </li>
           <li class="nav-item">
             <a class="nav-link disabled" href="#">Disabled</a>
