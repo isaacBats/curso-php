@@ -55,12 +55,23 @@ $map->get('index', '/', [
     'controller' => 'App\Controllers\IndexController',
     'action' => 'indexAction',
 ]);
+
 $map->get('addJob', '/jobs/add', [
     'controller' => 'App\Controllers\JobsController',
     'action' => 'getAddJobAction',
 ]);
 
+$map->post('saveJob', '/jobs/add', [
+    'controller' => 'App\Controllers\JobsController',
+    'action' => 'getAddJobAction',
+]);
+
 $map->get('addProject', '/projects/add', [
+    'controller' => 'App\Controllers\ProjectsController',
+    'action' => 'getAddProjectAction',
+]);
+
+$map->post('saveProject', '/projects/add', [
     'controller' => 'App\Controllers\ProjectsController',
     'action' => 'getAddProjectAction',
 ]);
@@ -76,6 +87,6 @@ if ( !$route ) {
     $actionName = $handlerData['action'];
 
     $controller = new $controllerName;
-    $controller->$actionName();
+    $controller->$actionName($request);
 
 }
