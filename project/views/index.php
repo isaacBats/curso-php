@@ -27,13 +27,13 @@
             <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="addJob.php">Add Job</a>
+            <a class="nav-link" href="jobs/add">Add Job</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="addProject.php">Add Project</a>
+            <a class="nav-link" href="projects/add">Add Project</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="tasks.php">Tasks</a>
+            <a class="nav-link" href="tasks/list">Tasks</a>
           </li>
           <li class="nav-item">
             <a class="nav-link disabled" href="#">Disabled</a>

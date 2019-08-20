@@ -12,6 +12,6 @@ class ProjectsController
             $project->save();
         }
 
-        include '../views/addJProject.php';
+        include '../views/addProject.php';
     }
 }

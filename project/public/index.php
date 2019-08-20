@@ -60,6 +60,11 @@ $map->get('addJob', '/jobs/add', [
     'action' => 'getAddJobAction',
 ]);
 
+$map->get('addProject', '/projects/add', [
+    'controller' => 'App\Controllers\ProjectsController',
+    'action' => 'getAddProjectAction',
+]);
+
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);
 
