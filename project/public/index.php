@@ -76,6 +76,11 @@ $map->post('saveProject', '/projects/add', [
     'action' => 'getAddProjectAction',
 ]);
 
+$map->get('tasksList', '/tasks/list', [
+    'controller' => 'App\Controllers\TasksController',
+    'action' => 'getListTaskAction',
+]);
+
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);
 
@@ -87,6 +92,7 @@ if ( !$route ) {
     $actionName = $handlerData['action'];
 
     $controller = new $controllerName;
-    $controller->$actionName($request);
+    $response = $controller->$actionName($request);
 
+    echo $response->getBody();
 }
