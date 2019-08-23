@@ -10,6 +10,7 @@
         "relay/relay": "^2.0",
         "middlewares/aura-router": "^1.1",
         "twig/twig": "^2.11",
-        "middlewares/request-handler": "^1.4"
+        "middlewares/request-handler": "^1.4",
+        "respect/validation": "^1.1"
     }
 }

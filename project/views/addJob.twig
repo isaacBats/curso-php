@@ -3,6 +3,9 @@
 {% block content %}
   <section>
         <h1>Add Job</h1>
+        <div class="alert alert-primary" role="alert">
+            {{ responseMessage }}
+        </div>
         <form method="post" action="">
           <div class="form-group">
             <label for="title">Title</label>
