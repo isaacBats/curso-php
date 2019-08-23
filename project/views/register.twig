@@ -1,0 +1,26 @@
+{% extends "layout.twig" %}
+{% block title %} Register {% endblock %}
+{% block content %}
+    <section>
+        <h1>Register</h1>
+        <div class="alert alert-primary" role="alert">
+            {{ responseMessage }}
+        </div>
+        <form method="post" action="/register" >
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" name="name" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Juan Pérez">
+            <small id="nameHelp" class="form-text text-muted">Your name.</small>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" name="email" class="form-control" id="email" placeholder="email@example.com">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" class="form-control" id="password" placeholder="********">
+          </div>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </section>
+{% endblock %}

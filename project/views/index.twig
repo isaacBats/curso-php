@@ -33,7 +33,14 @@
           {% for job in jobs %}
             <li class="work-position">
               <h5>{{ job.title }}</h5>
-              <p>{{ job.description }}</p>
+              <div class="row">
+                <div class="col-3">
+                  <img id="profile-picture" src="{{ job.img_path }}" alt="">
+                </div>
+                <div class="col">
+                  <p>{{ job.description }}</p>
+                </div>
+              </div>
             </li>
           {% endfor %} 
         </ul>

@@ -81,6 +81,32 @@ $map->get('tasksList', '/tasks/list', [
     'action' => 'getListTaskAction',
 ]);
 
+$map->get('register', '/register', [
+    'controller' => 'App\Controllers\UserController',
+    'action' => 'register',
+]);
+
+$map->post('registerAction', '/register', [
+    'controller' => 'App\Controllers\UserController',
+    'action' => 'register',
+]);
+
+$map->get('loginView', '/login', [
+    'controller' => 'App\Controllers\AuthController',
+    'action' => 'getLogin',
+]);
+
+$map->post('auth', '/auth', [
+    'controller' => 'App\Controllers\AuthController',
+    'action' => 'auth',
+]);
+
+$map->get('admin', '/admin', [
+    'controller' => 'App\Controllers\AdminController',
+    'action' => 'index',
+]);
+
+
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);
 
@@ -94,5 +120,11 @@ if ( !$route ) {
     $controller = new $controllerName;
     $response = $controller->$actionName($request);
 
+    foreach ($response->getHeaders() as $name => $values) {
+        foreach ($values as $value) {
+            header(sprintf('%s: %s', $name, $value), false);
+        }
+    }
+    http_response_code($response->getStatusCode());
     echo $response->getBody();
 }
