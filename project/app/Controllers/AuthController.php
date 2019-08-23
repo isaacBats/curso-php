@@ -11,6 +11,11 @@ class AuthController extends BaseController
         return $this->renderHTML('login.twig');
     }
 
+    public function getLogout () {
+        unset($_SESSION['userId']);
+        return new RedirectResponse('/login');
+    }
+
     public function auth ( $request ) {
         $responseMessage = '';
         $postData = $request->getParsedBody();
@@ -18,7 +23,7 @@ class AuthController extends BaseController
 
         if ( $user ) {
             if (password_verify($postData['password'], $user->password)) {
-                // var_dump($user); exit;
+                $_SESSION['userId'] = $user->id;
                 return new RedirectResponse('/admin');
             } else {
                 $responseMessage =  'Contraseña ó usuario incorrect@';

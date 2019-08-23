@@ -6,6 +6,8 @@ error_reporting(E_ALL);
 
 require_once '../vendor/autoload.php';
 
+session_start();
+
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Aura\Router\RouterContainer;
 
@@ -59,26 +61,31 @@ $map->get('index', '/', [
 $map->get('addJob', '/jobs/add', [
     'controller' => 'App\Controllers\JobsController',
     'action' => 'getAddJobAction',
+    'auth' => true,
 ]);
 
 $map->post('saveJob', '/jobs/add', [
     'controller' => 'App\Controllers\JobsController',
     'action' => 'getAddJobAction',
+    'auth' => true,
 ]);
 
 $map->get('addProject', '/projects/add', [
     'controller' => 'App\Controllers\ProjectsController',
     'action' => 'getAddProjectAction',
+    'auth' => true,
 ]);
 
 $map->post('saveProject', '/projects/add', [
     'controller' => 'App\Controllers\ProjectsController',
     'action' => 'getAddProjectAction',
+    'auth' => true,
 ]);
 
 $map->get('tasksList', '/tasks/list', [
     'controller' => 'App\Controllers\TasksController',
     'action' => 'getListTaskAction',
+    'auth' => true,
 ]);
 
 $map->get('register', '/register', [
@@ -96,6 +103,12 @@ $map->get('loginView', '/login', [
     'action' => 'getLogin',
 ]);
 
+$map->get('logout', '/logout', [
+    'controller' => 'App\Controllers\AuthController',
+    'action' => 'getLogout',
+    'auth' => true,
+]);
+
 $map->post('auth', '/auth', [
     'controller' => 'App\Controllers\AuthController',
     'action' => 'auth',
@@ -104,6 +117,7 @@ $map->post('auth', '/auth', [
 $map->get('admin', '/admin', [
     'controller' => 'App\Controllers\AdminController',
     'action' => 'index',
+    'auth' => true,
 ]);
 
 
@@ -116,6 +130,13 @@ if ( !$route ) {
     $handlerData = $route->handler;
     $controllerName = $handlerData['controller'];
     $actionName = $handlerData['action'];
+    $needsAuth = $handlerData['auth'] ?? false;
+
+    $sessionUserId = $_SESSION['userId'] ?? null;
+    if ( $needsAuth && !$sessionUserId ) {
+        echo 'Protected route';
+        die;
+    }
 
     $controller = new $controllerName;
     $response = $controller->$actionName($request);
