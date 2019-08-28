@@ -12,10 +12,6 @@ class IndexController extends BaseController
         $totalMonths = 0;
 
         $jobs = Job::all();
-        $jobs = array_filter( $jobs->toArray(), function( array $job ) use ($limitMonths) {
-            return $job['months'] >= $limitMonths;
-        });
-
         $projects = Project::all();
 
         return $this->renderHTML('index.twig', compact('name', 'limitMonths', 'totalMonths', 'jobs', 'projects'));
