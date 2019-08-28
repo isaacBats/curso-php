@@ -8,10 +8,13 @@ class IndexController extends BaseController
 {
     public function indexAction () {
         $name = 'Isaac Batista';
-        $limitMonths = 60;
+        $limitMonths = 18;
         $totalMonths = 0;
 
         $jobs = Job::all();
+        $jobs = array_filter( $jobs->toArray(), function($job) use ($limitMonths) {
+            return $job['months'] >= $limitMonths;
+        });
 
         $projects = Project::all();
 
