@@ -12,7 +12,7 @@ class IndexController extends BaseController
         $totalMonths = 0;
 
         $jobs = Job::all();
-        $jobs = array_filter( $jobs->toArray(), function($job) use ($limitMonths) {
+        $jobs = array_filter( $jobs->toArray(), function( array $job ) use ($limitMonths) {
             return $job['months'] >= $limitMonths;
         });
 

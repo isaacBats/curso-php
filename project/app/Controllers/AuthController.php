@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\User;
 use \Zend\Diactoros\Response\RedirectResponse;
+use \Zend\Diactoros\ServerRequest;
 
 class AuthController extends BaseController
 {
@@ -16,7 +17,7 @@ class AuthController extends BaseController
         return new RedirectResponse('/login');
     }
 
-    public function auth ( $request ) {
+    public function auth ( ServerRequest $request ) {
         $responseMessage = '';
         $postData = $request->getParsedBody();
         $user = User::where('email', $postData['email'])->first();
