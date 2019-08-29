@@ -56,37 +56,37 @@ $map->get('index', '/', [
 $map->get('addJob', '/jobs/add', [
     'App\Controllers\JobsController',
     'getAddJobAction',
-    true,
+    'auth' => true,
 ]);
 
 $map->get('indexJobs', '/jobs', [
     'App\Controllers\JobsController',
     'indexAction',
-    true,
+    'auth' => true,
 ]);
 
 $map->post('saveJob', '/jobs/add', [
     'App\Controllers\JobsController',
     'getAddJobAction',
-    true,
+    'auth' => true,
 ]);
 
 $map->get('addProject', '/projects/add', [
     'App\Controllers\ProjectsController',
     'getAddProjectAction',
-    true,
+    'auth' => true,
 ]);
 
 $map->post('saveProject', '/projects/add', [
     'App\Controllers\ProjectsController',
     'getAddProjectAction',
-    true,
+    'auth' => true,
 ]);
 
 $map->get('tasksList', '/tasks/list', [
     'App\Controllers\TasksController',
     'getListTaskAction',
-    true,
+    'auth' => true,
 ]);
 
 $map->get('register', '/register', [
@@ -107,7 +107,7 @@ $map->get('loginView', '/login', [
 $map->get('logout', '/logout', [
     'App\Controllers\AuthController',
     'getLogout',
-    true,
+    'auth' => true,
 ]);
 
 $map->post('auth', '/auth', [
@@ -118,19 +118,19 @@ $map->post('auth', '/auth', [
 $map->get('admin', '/admin', [
     'App\Controllers\AdminController',
     'index',
-    true,
+    'auth' => true,
 ]);
 
 $map->get('deleteJobs', '/jobs/delete', [
     'App\Controllers\JobsController',
     'deleteAction',
-    true,
+    'auth' => true,
 ]);
 
 $map->get('restoreJob', '/jobs/restore', [
     'App\Controllers\JobsController',
     'activeJob',
-    true,
+    'auth' => true,
 ]);
 
 
@@ -140,20 +140,13 @@ $route = $matcher->match($request);
 if ( !$route ) {
     echo 'No route';
 } else {
-    // $handlerData = $route->handler;
-    // $controllerName = $handlerData['controller'];
-    // $actionName = $handlerData['action'];
-    // $needsAuth = $handlerData['auth'] ?? false;
-
-    // $sessionUserId = $_SESSION['userId'] ?? null;
-    // if ( $needsAuth && !$sessionUserId ) {
-    //     echo 'Protected route';
-    //     die;
-    // }
-
+    $handlerData = $route->handler;
+    $_SERVER['auth'] = $handlerData['auth'] ?? false;
+    
     $harmony = new Harmony($request, new Response());
     $harmony
         ->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()))
+        ->addMiddleware(new App\Middlewares\AuthenticationMiddleware())
         ->addMiddleware(new Middlewares\AuraRouter($routerContainer))
         ->addMiddleware(new DispatcherMiddleware($container, 'request-handler'))
         ->run();
