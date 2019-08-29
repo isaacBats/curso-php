@@ -50,7 +50,7 @@ class JobsController extends BaseController
 
     public function indexAction () {
 
-        $jobs = Job::all();
+        $jobs = Job::withTrashed()->get();
 
         return $this->renderHTML('jobs/index.twig', compact('jobs'));
     }
@@ -59,6 +59,13 @@ class JobsController extends BaseController
         $params = $request->getQueryParams();
         $job = Job::find($params['id']);
         $job->delete();
+
+        return new RedirectResponse('/jobs');
+    }
+
+    public function activeJob( ServerRequest $request ) {
+        $params = $request->getQueryParams();
+        $job = Job::onlyTrashed()->find($params['id'])->restore();
 
         return new RedirectResponse('/jobs');
     }

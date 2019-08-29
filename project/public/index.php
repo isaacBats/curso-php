@@ -136,6 +136,12 @@ $map->get('deleteJobs', '/jobs/delete', [
     'auth' => true,
 ]);
 
+$map->get('restoreJob', '/jobs/restore', [
+    'controller' => 'App\Controllers\JobsController',
+    'action' => 'activeJob',
+    'auth' => true,
+]);
+
 
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);

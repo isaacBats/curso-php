@@ -9,12 +9,16 @@
         <table class="table">
           <tr>
             <th>Job title</th>
-            <th>Delete</th>
+            <th>Actions</th>
           </tr>
           {% for job in jobs %}
               <tr>
                 <td>{{ job.title }}</td>
-                <td><a href="/jobs/delete?id={{ job.id }}">Delete</a></td>
+                {% if( job.deleted_at ) %}
+                  <td><a href="/jobs/restore?id={{ job.id }}">Restore</a></td>
+                {% else %}
+                  <td><a href="/jobs/delete?id={{ job.id }}">Delete</a></td>
+                {% endif %}
               </tr>
           {% endfor %}
         </table>
