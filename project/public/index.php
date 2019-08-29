@@ -1,15 +1,16 @@
-<?php phpinfo(); exit;
-
-ini_set('display_errors', 1);
-ini_set('display_starup_error', 1);
-error_reporting(E_ALL);
-
+<?php
 require_once '../vendor/autoload.php';
 
 session_start();
 
 $dotenv = Dotenv\Dotenv::create(__DIR__ . '/..');
 $dotenv->load();
+
+if (getenv('DEBUG') === true) {
+    ini_set('display_errors', 1);
+    ini_set('display_starup_error', 1);
+    error_reporting(E_ALL);
+}
 
 use Aura\Router\RouterContainer;
 use Franzl\Middleware\Whoops\WhoopsMiddleware;
@@ -151,19 +152,21 @@ if ( !$route ) {
         $_SERVER['auth'] = $handlerData['auth'] ?? false;
         
         $harmony = new Harmony($request, new Response());
-        $harmony
-            ->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()))
-            ->addMiddleware(new WhoopsMiddleware)
-            ->addMiddleware(new App\Middlewares\AuthenticationMiddleware())
+        $harmony->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()));
+            if (getenv('DEBUG') === true) {
+                $harmony->addMiddleware(new WhoopsMiddleware);
+            }
+        $harmony->addMiddleware(new App\Middlewares\AuthenticationMiddleware())
             ->addMiddleware(new Middlewares\AuraRouter($routerContainer))
             ->addMiddleware(new DispatcherMiddleware($container, 'request-handler'))
             ->run();
-    // } catch (Exception $e) {
+    } catch (Exception $e) {
         // No se agrega ningun tipo de mensaje por seguridad. Asi quien esta viendo la pantalla no sabe que fallo
         // Esto es por temas de seguridad de la aplicación. Que se recomienda no poner en donde esta fallando la aplicación.
         // Aunque esta parte se puede tambien mandar un response con HTML. Y asi mostrar un mensaje agradable al usuario.
-        // $emmiter = new SapiEmitter();
-        // $emmiter->emit(new Response\EmptyResponse(400));
+        $log->warning($e->getMessage());
+        $emmiter = new SapiEmitter();
+        $emmiter->emit(new Response\EmptyResponse(400));
     } catch (Error $err) {
         $emmiter = new SapiEmitter();
         $emmiter->emit(new Response\EmptyResponse(500));
