@@ -1,4 +1,4 @@
-<?php
+<?php phpinfo(); exit;
 
 ini_set('display_errors', 1);
 ini_set('display_starup_error', 1);
@@ -17,6 +17,7 @@ use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
 use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
 use WoohooLabs\Harmony\Middleware\HttpHandlerRunnerMiddleware;
+use Franzl\Middleware\Whoops\WhoopsMiddleware;
 use Zend\Diactoros\Response;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
@@ -147,16 +148,17 @@ if ( !$route ) {
         $harmony = new Harmony($request, new Response());
         $harmony
             ->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()))
+            ->addMiddleware(new WhoopsMiddleware)
             ->addMiddleware(new App\Middlewares\AuthenticationMiddleware())
             ->addMiddleware(new Middlewares\AuraRouter($routerContainer))
             ->addMiddleware(new DispatcherMiddleware($container, 'request-handler'))
             ->run();
-    } catch (Exception $e) {
-        $emmiter = new SapiEmitter();
+    // } catch (Exception $e) {
         // No se agrega ningun tipo de mensaje por seguridad. Asi quien esta viendo la pantalla no sabe que fallo
         // Esto es por temas de seguridad de la aplicación. Que se recomienda no poner en donde esta fallando la aplicación.
         // Aunque esta parte se puede tambien mandar un response con HTML. Y asi mostrar un mensaje agradable al usuario.
-        $emmiter->emit(new Response\EmptyResponse(400));
+        // $emmiter = new SapiEmitter();
+        // $emmiter->emit(new Response\EmptyResponse(400));
     } catch (Error $err) {
         $emmiter = new SapiEmitter();
         $emmiter->emit(new Response\EmptyResponse(500));
