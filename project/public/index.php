@@ -14,37 +14,22 @@ $dotenv->load();
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Aura\Router\RouterContainer;
 
-    $capsule = new Capsule;
+$container = new DI\Container();
+$capsule = new Capsule;
 
-    $capsule->addConnection([
-        'driver'    => getenv('DB_DRIVER'),
-        'host'      => getenv('DB_HOST'),
-        'database'  => getenv('DB_NAME'),
-        'username'  => getenv('DB_USER'),
-        'password'  => getenv('DB_PASS'),
-        'charset'   => 'utf8',
-        'collation' => 'utf8_unicode_ci',
-        'prefix'    => '',
-        'port'    => getenv('DB_PORT'),
-    ]);
-    $capsule->setAsGlobal();
-    $capsule->bootEloquent();
-
-function printElement ($job) 
-{ ?>
-    <li class="work-position">
-        <h5><?= $job->title; ?></h5>
-        <p><?= $job->description; ?></p>
-        <p><?= $job->getDurationAsString(); ?></p>
-      <strong>Achievements:</strong>
-      <ul>
-        <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
-        <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
-        <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
-      </ul>
-    </li>
-<?php }
-
+$capsule->addConnection([
+    'driver'    => getenv('DB_DRIVER'),
+    'host'      => getenv('DB_HOST'),
+    'database'  => getenv('DB_NAME'),
+    'username'  => getenv('DB_USER'),
+    'password'  => getenv('DB_PASS'),
+    'charset'   => 'utf8',
+    'collation' => 'utf8_unicode_ci',
+    'prefix'    => '',
+    'port'    => getenv('DB_PORT'),
+]);
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
 
 $request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
     $_SERVER,
@@ -160,9 +145,9 @@ if ( !$route ) {
         die;
     }
 
-    $controller = new $controllerName;
+    $controller = $container->get($controllerName);
     $response = $controller->$actionName($request);
-
+    
     foreach ($response->getHeaders() as $name => $values) {
         foreach ($values as $value) {
             header(sprintf('%s: %s', $name, $value), false);

@@ -12,6 +12,7 @@
         "twig/twig": "^2.11",
         "middlewares/request-handler": "^1.4",
         "respect/validation": "^1.1",
-        "vlucas/phpdotenv": "^3.4"
+        "vlucas/phpdotenv": "^3.4",
+        "php-di/php-di": "^6.0"
     }
 }
