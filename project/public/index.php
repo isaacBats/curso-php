@@ -11,8 +11,14 @@ session_start();
 $dotenv = Dotenv\Dotenv::create(__DIR__ . '/..');
 $dotenv->load();
 
-use Illuminate\Database\Capsule\Manager as Capsule;
 use Aura\Router\RouterContainer;
+use Illuminate\Database\Capsule\Manager as Capsule;
+use WoohooLabs\Harmony\Harmony;
+use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
+use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
+use WoohooLabs\Harmony\Middleware\HttpHandlerRunnerMiddleware;
+use Zend\Diactoros\Response;
+use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
 $container = new DI\Container();
 $capsule = new Capsule;
@@ -43,88 +49,88 @@ $routerContainer = new RouterContainer();
 $map = $routerContainer->getMap();
 
 $map->get('index', '/', [
-    'controller' => 'App\Controllers\IndexController',
-    'action' => 'indexAction',
+    'App\Controllers\IndexController',
+    'indexAction',
 ]);
 
 $map->get('addJob', '/jobs/add', [
-    'controller' => 'App\Controllers\JobsController',
-    'action' => 'getAddJobAction',
-    'auth' => true,
+    'App\Controllers\JobsController',
+    'getAddJobAction',
+    true,
 ]);
 
 $map->get('indexJobs', '/jobs', [
-    'controller' => 'App\Controllers\JobsController',
-    'action' => 'indexAction',
-    'auth' => true,
+    'App\Controllers\JobsController',
+    'indexAction',
+    true,
 ]);
 
 $map->post('saveJob', '/jobs/add', [
-    'controller' => 'App\Controllers\JobsController',
-    'action' => 'getAddJobAction',
-    'auth' => true,
+    'App\Controllers\JobsController',
+    'getAddJobAction',
+    true,
 ]);
 
 $map->get('addProject', '/projects/add', [
-    'controller' => 'App\Controllers\ProjectsController',
-    'action' => 'getAddProjectAction',
-    'auth' => true,
+    'App\Controllers\ProjectsController',
+    'getAddProjectAction',
+    true,
 ]);
 
 $map->post('saveProject', '/projects/add', [
-    'controller' => 'App\Controllers\ProjectsController',
-    'action' => 'getAddProjectAction',
-    'auth' => true,
+    'App\Controllers\ProjectsController',
+    'getAddProjectAction',
+    true,
 ]);
 
 $map->get('tasksList', '/tasks/list', [
-    'controller' => 'App\Controllers\TasksController',
-    'action' => 'getListTaskAction',
-    'auth' => true,
+    'App\Controllers\TasksController',
+    'getListTaskAction',
+    true,
 ]);
 
 $map->get('register', '/register', [
-    'controller' => 'App\Controllers\UserController',
-    'action' => 'register',
+    'App\Controllers\UserController',
+    'register',
 ]);
 
 $map->post('registerAction', '/register', [
-    'controller' => 'App\Controllers\UserController',
-    'action' => 'register',
+    'App\Controllers\UserController',
+    'register',
 ]);
 
 $map->get('loginView', '/login', [
-    'controller' => 'App\Controllers\AuthController',
-    'action' => 'getLogin',
+    'App\Controllers\AuthController',
+    'getLogin',
 ]);
 
 $map->get('logout', '/logout', [
-    'controller' => 'App\Controllers\AuthController',
-    'action' => 'getLogout',
-    'auth' => true,
+    'App\Controllers\AuthController',
+    'getLogout',
+    true,
 ]);
 
 $map->post('auth', '/auth', [
-    'controller' => 'App\Controllers\AuthController',
-    'action' => 'auth',
+    'App\Controllers\AuthController',
+    'auth',
 ]);
 
 $map->get('admin', '/admin', [
-    'controller' => 'App\Controllers\AdminController',
-    'action' => 'index',
-    'auth' => true,
+    'App\Controllers\AdminController',
+    'index',
+    true,
 ]);
 
 $map->get('deleteJobs', '/jobs/delete', [
-    'controller' => 'App\Controllers\JobsController',
-    'action' => 'deleteAction',
-    'auth' => true,
+    'App\Controllers\JobsController',
+    'deleteAction',
+    true,
 ]);
 
 $map->get('restoreJob', '/jobs/restore', [
-    'controller' => 'App\Controllers\JobsController',
-    'action' => 'activeJob',
-    'auth' => true,
+    'App\Controllers\JobsController',
+    'activeJob',
+    true,
 ]);
 
 
@@ -134,25 +140,21 @@ $route = $matcher->match($request);
 if ( !$route ) {
     echo 'No route';
 } else {
-    $handlerData = $route->handler;
-    $controllerName = $handlerData['controller'];
-    $actionName = $handlerData['action'];
-    $needsAuth = $handlerData['auth'] ?? false;
+    // $handlerData = $route->handler;
+    // $controllerName = $handlerData['controller'];
+    // $actionName = $handlerData['action'];
+    // $needsAuth = $handlerData['auth'] ?? false;
 
-    $sessionUserId = $_SESSION['userId'] ?? null;
-    if ( $needsAuth && !$sessionUserId ) {
-        echo 'Protected route';
-        die;
-    }
+    // $sessionUserId = $_SESSION['userId'] ?? null;
+    // if ( $needsAuth && !$sessionUserId ) {
+    //     echo 'Protected route';
+    //     die;
+    // }
 
-    $controller = $container->get($controllerName);
-    $response = $controller->$actionName($request);
-    
-    foreach ($response->getHeaders() as $name => $values) {
-        foreach ($values as $value) {
-            header(sprintf('%s: %s', $name, $value), false);
-        }
-    }
-    http_response_code($response->getStatusCode());
-    echo $response->getBody();
+    $harmony = new Harmony($request, new Response());
+    $harmony
+        ->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()))
+        ->addMiddleware(new Middlewares\AuraRouter($routerContainer))
+        ->addMiddleware(new DispatcherMiddleware($container, 'request-handler'))
+        ->run();
 }

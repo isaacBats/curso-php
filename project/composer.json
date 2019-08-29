@@ -13,6 +13,8 @@
         "middlewares/request-handler": "^1.4",
         "respect/validation": "^1.1",
         "vlucas/phpdotenv": "^3.4",
-        "php-di/php-di": "^6.0"
+        "php-di/php-di": "^6.0",
+        "woohoolabs/harmony": "^6.1",
+        "zendframework/zend-httphandlerrunner": "^1.1"
     }
 }
