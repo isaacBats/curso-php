@@ -140,14 +140,25 @@ $route = $matcher->match($request);
 if ( !$route ) {
     echo 'No route';
 } else {
-    $handlerData = $route->handler;
-    $_SERVER['auth'] = $handlerData['auth'] ?? false;
-    
-    $harmony = new Harmony($request, new Response());
-    $harmony
-        ->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()))
-        ->addMiddleware(new App\Middlewares\AuthenticationMiddleware())
-        ->addMiddleware(new Middlewares\AuraRouter($routerContainer))
-        ->addMiddleware(new DispatcherMiddleware($container, 'request-handler'))
-        ->run();
+    try {
+        $handlerData = $route->handler;
+        $_SERVER['auth'] = $handlerData['auth'] ?? false;
+        
+        $harmony = new Harmony($request, new Response());
+        $harmony
+            ->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()))
+            ->addMiddleware(new App\Middlewares\AuthenticationMiddleware())
+            ->addMiddleware(new Middlewares\AuraRouter($routerContainer))
+            ->addMiddleware(new DispatcherMiddleware($container, 'request-handler'))
+            ->run();
+    } catch (Exception $e) {
+        $emmiter = new SapiEmitter();
+        // No se agrega ningun tipo de mensaje por seguridad. Asi quien esta viendo la pantalla no sabe que fallo
+        // Esto es por temas de seguridad de la aplicación. Que se recomienda no poner en donde esta fallando la aplicación.
+        // Aunque esta parte se puede tambien mandar un response con HTML. Y asi mostrar un mensaje agradable al usuario.
+        $emmiter->emit(new Response\EmptyResponse(400));
+    } catch (Error $err) {
+        $emmiter = new SapiEmitter();
+        $emmiter->emit(new Response\EmptyResponse(500));
+    }
 }
