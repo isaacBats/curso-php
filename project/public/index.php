@@ -68,6 +68,12 @@ $map->get('addJob', '/jobs/add', [
     'auth' => true,
 ]);
 
+$map->get('indexJobs', '/jobs', [
+    'controller' => 'App\Controllers\JobsController',
+    'action' => 'indexAction',
+    'auth' => true,
+]);
+
 $map->post('saveJob', '/jobs/add', [
     'controller' => 'App\Controllers\JobsController',
     'action' => 'getAddJobAction',
@@ -121,6 +127,12 @@ $map->post('auth', '/auth', [
 $map->get('admin', '/admin', [
     'controller' => 'App\Controllers\AdminController',
     'action' => 'index',
+    'auth' => true,
+]);
+
+$map->get('deleteJobs', '/jobs/delete', [
+    'controller' => 'App\Controllers\JobsController',
+    'action' => 'deleteAction',
     'auth' => true,
 ]);
 
