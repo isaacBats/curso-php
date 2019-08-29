@@ -2,3 +2,5 @@ vendor/
 public/uploads/
 !public/uploads/.gitkeep
 .env
+!logs/.gitkeep
+logs/

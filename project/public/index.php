@@ -12,14 +12,19 @@ $dotenv = Dotenv\Dotenv::create(__DIR__ . '/..');
 $dotenv->load();
 
 use Aura\Router\RouterContainer;
-use Illuminate\Database\Capsule\Manager as Capsule;
-use WoohooLabs\Harmony\Harmony;
-use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
-use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
-use WoohooLabs\Harmony\Middleware\HttpHandlerRunnerMiddleware;
 use Franzl\Middleware\Whoops\WhoopsMiddleware;
+use Illuminate\Database\Capsule\Manager as Capsule;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use WoohooLabs\Harmony\Harmony;
+use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
+use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
+use WoohooLabs\Harmony\Middleware\HttpHandlerRunnerMiddleware;
 use Zend\Diactoros\Response;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
+
+$log = new Logger('app');
+$log->pushHandler(new StreamHandler(__DIR__ . '/../logs/app.log'), Logger::WARNING);
 
 $container = new DI\Container();
 $capsule = new Capsule;
