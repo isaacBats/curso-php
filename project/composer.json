@@ -19,6 +19,7 @@
         "filp/whoops": "^2.5",
         "franzl/whoops-middleware": "^1.1",
         "monolog/monolog": "^1.24",
-        "robmorgan/phinx": "^0.11.1"
+        "robmorgan/phinx": "^0.11.1",
+        "symfony/console": "^4.3"
     }
 }
