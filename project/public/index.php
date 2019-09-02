@@ -140,6 +140,16 @@ $map->get('restoreJob', '/jobs/restore', [
     'auth' => true,
 ]);
 
+$map->get('contactForm', '/contact', [
+    'App\Controllers\ContactController',
+    'index',
+]);
+
+$map->post('contactAction', '/contact/send', [
+    'App\Controllers\ContactController',
+    'sendAction',
+]);
+
 
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);
@@ -168,6 +178,7 @@ if ( !$route ) {
         $emmiter = new SapiEmitter();
         $emmiter->emit(new Response\EmptyResponse(400));
     } catch (Error $err) {
+        $log->error($err->getMessage());
         $emmiter = new SapiEmitter();
         $emmiter->emit(new Response\EmptyResponse(500));
     }
