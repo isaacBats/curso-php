@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Message;
 use App\Models\User;
 use Respect\Validation\Validator as v;
 use Swift_Mailer;
@@ -17,23 +18,16 @@ class ContactController extends BaseController
 
     public function sendAction ($request) {
         $requestData = $request->getParsedBody();
-        $transport = (new Swift_SmtpTransport(getenv('EMAIL_SMTP'), getenv('EMAIL_PORT')))
-          ->setUsername(getenv('EMAIL_USER'))
-          ->setPassword(getenv('EMAIL_PASS'));
-        $mailer = new Swift_Mailer($transport);
 
-        $htmlParse = "<h1>Contact Form</h1>
-            <br><strong>Name:</strong> {$requestData['name']}
-            <br><strong>Email:</strong> {$requestData['email']}
-            <br><strong>Message:</strong> <p>{$requestData['message']}</p>";
+        $message = new Message();
+        $message->name = $requestData['name'];
+        $message->email = $requestData['email'];
+        $message->subject = $requestData['subject'];
+        $message->message = $requestData['message'];
+        $message->sent = false;
 
-        $message = (new Swift_Message($requestData['subject']))
-            ->setFrom(['isaac@danielbat.com' => 'Isaac Batista'])
-            ->setTo(['daniel@danielbat.com', 'klonate@gmail.com' => 'Consorcio'])
-            ->setBody($htmlParse);
-
-        $result = $mailer->send($message);
-
+        $message->save();
+        
         return new RedirectResponse('/contact');
     }
 }
