@@ -168,6 +168,24 @@ $map->post('editUserAction', '/admin/user/{id}', [
     'auth' => true,
 ]);
 
+// Api
+$map->get('api.tasks.get', '/api/v1/tasks', [
+    'App\Controllers\TasksController',
+    'getTasks'
+]);
+$map->post('api.tasks.post', '/api/v1/tasks', [
+    'App\Controllers\TasksController',
+    'createTask'
+]);
+$map->patch('api.tasks.patch', '/api/v1/tasks/{id}', [
+    'App\Controllers\TasksController',
+    'editTask'
+]);
+$map->delete('api.tasks.delete', '/api/v1/tasks/{id}', [
+    'App\Controllers\TasksController',
+    'deleteTask'
+]);
+
 
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);
