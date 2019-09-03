@@ -150,6 +150,24 @@ $map->post('contactAction', '/contact/send', [
     'sendAction',
 ]);
 
+$map->get('listUsers', '/admin/users', [
+    'App\Controllers\UserController',
+    'showUsers',
+    'auth' => true,
+]);
+
+$map->get('editUser', '/admin/user/{id}', [
+    'App\Controllers\UserController',
+    'editUser',
+    'auth' => true,
+]);
+
+$map->post('editUserAction', '/admin/user/{id}', [
+    'App\Controllers\UserController',
+    'editUserAction',
+    'auth' => true,
+]);
+
 
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);

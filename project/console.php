@@ -5,6 +5,7 @@ require __DIR__.'/vendor/autoload.php';
 
 use App\Commands\HelloWorldCommand;
 use App\Commands\SendMailCommand;
+use App\Commands\CreateUserCommand;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Symfony\Component\Console\Application;
 
@@ -31,4 +32,5 @@ $capsule->bootEloquent();
 $application = new Application();
 $application->add(new HelloWorldCommand());
 $application->add(new SendMailCommand());
+$application->add(new CreateUserCommand());
 $application->run();
